@@ -1,0 +1,15 @@
+# Render Blueprint: New + > Blueprint > pick this repo.
+services:
+  - type: web
+    name: skillmatrix
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ADMIN_TOKEN
+        sync: false        # you type the admin password in the Render dashboard
+      - key: PYTHON_VERSION
+        value: 3.12.3
+    # Free plan has an ephemeral disk: data resets on redeploy/restart.
+    # For persistent data, use a paid plan + disk mounted at /var/data and set DB_PATH=/var/data/skillmatrix.db
